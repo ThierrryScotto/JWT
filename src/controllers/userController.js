@@ -12,7 +12,7 @@ const getUsers = async (req, res) => {
 
     return res.status(200).send(users);
   } catch {
-    return res.status(400).send('There are an internal error')
+    return res.status(400).send('There was a internal error')
   }
 };
 
@@ -27,7 +27,7 @@ const getUserById = async (req, res) => {
 
     res.status(200).send(user);
   } catch {
-    res.status(400).send('There are an internal error');
+    res.status(400).send('There was a internal error');
   }  
 };
 
@@ -50,7 +50,7 @@ const editUser = async (req, res) => {
     return res.status(202).send(userEdited);
   } 
   catch {
-    return res.status(400).send('There are an internal error');
+    return res.status(400).send('There was a internal error');
   }
 };
 
@@ -62,7 +62,7 @@ const createUser = async (req, res) => {
 
     return res.status(201).send(userCreated);
   } catch(error) {
-    return res.status(400).send('There are an internal error');
+    return res.status(400).send('There was a internal error');
   }
 };
 
@@ -84,7 +84,7 @@ const deleteUser = async (req, res) => {
 
     return res.status(202).send('User deleted');
   } catch {
-    return res.status(400).send('There are an internal error');
+    return res.status(400).send('There was a internal error');
   }
 }
 
