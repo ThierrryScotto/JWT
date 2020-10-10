@@ -1,3 +1,5 @@
+'use strict'
+
 const mongoose = require('../service/index');
 
 const Schema = mongoose.Schema;
@@ -7,6 +9,7 @@ const user = new Schema({
   name:      { type: String, required: true },
   age:       { type: Number, min: 5, index: true },
   password:  { type: String, required: true },
+  status:    { type: String, default: '0', required: true },
   createdAt: { type: Date, default: Date.now },
   buff: Buffer
 });

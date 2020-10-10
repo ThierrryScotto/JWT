@@ -1,17 +1,10 @@
-const app = require('./router/index');
+'use strict'
 
-app.express.get('/users', (req, res, next) => {
-  res.status(200).send('Success');
-});
+const app            = require('./router/index');
+const userController = require('./controllers/userController')
 
-app.express.get('/user:id', (req, res, next) => {
-  res.status(200).send('Success');
-});
-
-app.express.put('/edit/user', (req, res, next) => {
-  res.status(200).send('Success');
-});
-
-app.express.post('/create/user', (req, res, next) => {
-  res.status(200).send('Success');
-});
+app.express.get('/users', userController.getUsers);
+app.express.get('/user:id', userController.getUserById);
+app.express.put('/edit/user/:id', userController.editUser);
+app.express.post('/create/user', userController.createUser);
+app.express.delete('/delete/user/:id', userController.deleteUser);
