@@ -7,9 +7,11 @@ const ObjectId = Schema.ObjectId;
 
 const user = new Schema({
   name:      { type: String, required: true },
-  age:       { type: Number, min: 5, index: true },
+  age:       { type: String, required: true },
   password:  { type: String, required: true },
   status:    { type: String, default: '0', required: true },
   createdAt: { type: Date, default: Date.now },
   buff: Buffer
 });
+
+module.exports = mongoose.model('User', user);

@@ -48,7 +48,7 @@ const editUser = async (req, res) => {
     }
 
     user.save();
-    res.status(202).send('User edited with success');
+    res.status(202).send(user);
   } 
   catch {
     res.status(400).send('There are a internal error');
@@ -59,10 +59,10 @@ const createUser = async (req, res) => {
   try {
     const body = req.body;
 
-    const userCreated = User.crete(body);
+    const userCreated = await User.create(body);
 
-    res.send(201).send('User created with success');
-  } catch {
+    await res.status(201).send(userCreated);
+  } catch(error) {
     res.status(400).send('There are a internal error');
   }
 };
