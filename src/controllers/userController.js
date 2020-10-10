@@ -72,8 +72,6 @@ const deleteUser = async (req, res) => {
 
     let user = await User.findOne({ _id: userId, status: '0' });
 
-    console.log('-- GAI --', user);
-
     if (!user) {
       return res.send(404).send(`User ${userId} not found`);
     }
