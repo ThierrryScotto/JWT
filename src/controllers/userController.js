@@ -12,7 +12,7 @@ const getUsers = async (req, res) => {
 
     return res.status(200).send(users);
   } catch {
-    return res.status(400).send('There are a internal error')
+    return res.status(400).send('There are an internal error')
   }
 };
 
@@ -27,29 +27,30 @@ const getUserById = async (req, res) => {
 
     res.status(200).send(user);
   } catch {
-    res.status(400).send('There are a internal error');
+    res.status(400).send('There are an internal error');
   }  
 };
 
 const editUser = async (req, res) => {
   const body = req.body;
   let user = await User.findOne({ _id: body.id });
+
   if (!user) {
     return res.status(404).send('User not found');
   }
-  
-  try {
-    user = {
-      name:     body.name || user.name,
-      age:      body.age  || user.age,
+
+  try {  
+   let userEdited = await User.updateOne({ _id: body.id }, { 
+      name:     body.name   || user.name, 
+      age:      body.age    || user.age,
+      status:   body.status || user.status,
       password: body.password || user.password
-    }
-    
-    await user.save(user);
-    return res.status(202).send(user);
+    });
+
+    return res.status(202).send(userEdited);
   } 
   catch {
-    return res.status(400).send('There are a internal error');
+    return res.status(400).send('There are an internal error');
   }
 };
 
@@ -61,25 +62,31 @@ const createUser = async (req, res) => {
 
     return res.status(201).send(userCreated);
   } catch(error) {
-    return res.status(400).send('There are a internal error');
+    return res.status(400).send('There are an internal error');
   }
 };
 
 const deleteUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.params;
 
-    let user = User.findOne({ id });
+    let user = await User.findOne({ _id: userId, status: '0' });
+
+    console.log('-- GAI --', user);
 
     if (!user) {
-      return res.send(404).send(`User ${id} not found`);
+      return res.send(404).send(`User ${userId} not found`);
     }
 
-    user.status = 1;
+    const userDeleted = await User.updateOne({ _id: userId }, { status: '1' });
+
+    if (!userDeleted) {
+      return res.status(404).send(`User ${userId} not deleted`);
+    }
 
     return res.status(202).send('User deleted');
   } catch {
-    return res.status(400).send('There are a internal error');
+    return res.status(400).send('There are an internal error');
   }
 }
 
