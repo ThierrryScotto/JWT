@@ -1,7 +1,6 @@
 'use strict'
 
 const User              = require('../models/user');
-const { generateHash }  = require('../services/bcrypt/index');
 const { generateToken } = require('../services/jwt');
 
 const getUsers = async (req, res) => {
