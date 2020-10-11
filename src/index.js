@@ -3,10 +3,11 @@
 const router         = require('./router/index');
 const userController = require('./controllers/userController');
 const auth           = require('./controllers/authController');
+const authMiddleware = require('./middleware/auth');
 
 router.post('/authenticate', auth.check);
-router.get('/users', userController.getUsers);
-router.get('/user/:userId', userController.getUserById);
-router.put('/edit/user', userController.editUser);
+router.get('/users', authMiddleware, userController.getUsers);
+router.get('/user/:userId', authMiddleware, userController.getUserById);
+router.put('/edit/user', authMiddleware, userController.editUser);
 router.post('/create/user', userController.createUser);
-router.delete('/delete/user/:userId', userController.deleteUser);
+router.delete('/delete/user/:userId', authMiddleware, userController.deleteUser);
