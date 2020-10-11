@@ -66,7 +66,7 @@ const createUser = async (req, res) => {
     }
 
     const userCreated = await User.create(body);
-    console.log('--A--')
+    
     const token = generateToken(userCreated.id);
 
     return res.status(201).send({ userCreated, token });
