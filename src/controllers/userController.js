@@ -41,16 +41,16 @@ const editUser = async (req, res) => {
   }
 
   try {  
-   let userEdited = await User.updateOne({ _id: body.id }, { 
-      email:     body.email   || user.email, 
+   await User.updateOne({ _id: body.id }, { 
+      email:    body.email || user.email, 
       status:   body.status || user.status,
       password: body.password || user.password
     });
 
-    return res.status(202).send(userEdited);
+    return res.status(202).send({ success: 'User edited with success' });
   } 
   catch {
-    return res.status(400).send('There was a internal error');
+    return res.status(400).send({ error: 'There was a internal error' });
   }
 };
 
