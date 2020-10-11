@@ -41,8 +41,7 @@ const editUser = async (req, res) => {
 
   try {  
    let userEdited = await User.updateOne({ _id: body.id }, { 
-      name:     body.name   || user.name, 
-      age:      body.age    || user.age,
+      email:     body.email   || user.email, 
       status:   body.status || user.status,
       password: body.password || user.password
     });

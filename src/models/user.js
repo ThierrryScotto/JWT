@@ -6,9 +6,8 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const user = new Schema({
-  name:      { type: String, required: true },
-  age:       { type: String, required: true },
-  password:  { type: String, required: true },
+  email:      { type: String, required: true },
+  password:  { type: String, required: true, select: false },
   status:    { type: String, default: '0', required: true },
   createdAt: { type: Date, default: Date.now },
   buff: Buffer
