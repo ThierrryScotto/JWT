@@ -16,7 +16,7 @@ const check = async (req, res) => {
     return res.status(404).send({ error: 'Invalid password' });
   }
 
-  res.send({ user });
+  res.send(user);
 }
 
 module.exports = {
