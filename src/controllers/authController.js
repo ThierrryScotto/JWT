@@ -1,7 +1,9 @@
 'use strict'
 
-const { compare } = require('../service/bcrypt/index'); 
-const User        = require('../models/user');
+const { compare }       = require('../service/bcrypt/index'); 
+const { generateToken } = require('../service/jwt/index');
+
+const User = require('../models/user');
 
 const check = async (req, res) => {
   const { email, password } = req.body;
@@ -16,7 +18,9 @@ const check = async (req, res) => {
     return res.status(404).send({ error: 'Invalid password' });
   }
 
-  res.send(user);
+  const token = generateToken(user.id);
+
+  res.send({ user, token });
 }
 
 module.exports = {

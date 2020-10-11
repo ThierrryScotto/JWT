@@ -1,7 +1,8 @@
 'use strict'
 
-const User             = require('../models/user');
-const { generateHash } = require('../service/bcrypt/index');
+const User              = require('../models/user');
+const { generateHash }  = require('../service/bcrypt/index');
+const { generateToken } = require('../service/jwt');
 
 const getUsers = async (req, res) => {
   try {
@@ -68,7 +69,9 @@ const createUser = async (req, res) => {
 
     const userCreated = await User.create(body);
 
-    return res.status(201).send(userCreated);
+    const token = generateToken(userCreated.id);
+
+    return res.status(201).send({ userCreated, token });
   } catch(error) {
     return res.status(400).send('There was a internal error');
   }
