@@ -1,7 +1,7 @@
 'use strict'
 
-const { compare }       = require('../service/bcrypt/index'); 
-const { generateToken } = require('../service/jwt/index');
+const { compare }       = require('../services/bcrypt/index'); 
+const { generateToken } = require('../services/jwt/index');
 
 const User = require('../models/user');
 

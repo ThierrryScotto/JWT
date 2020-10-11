@@ -1,8 +1,8 @@
 'use strict'
 
 const User              = require('../models/user');
-const { generateHash }  = require('../service/bcrypt/index');
-const { generateToken } = require('../service/jwt');
+const { generateHash }  = require('../services/bcrypt/index');
+const { generateToken } = require('../services/jwt');
 
 const getUsers = async (req, res) => {
   try {
@@ -59,16 +59,14 @@ const createUser = async (req, res) => {
   try {
     const body = req.body;
 
-    const alreadyUser = await User.findOne({ email: body.email });
+    const user = await User.findOne({ email: body.email });
 
-    if (alreadyUser) {
+    if (user) {
       return res.status(400).send({ error: 'User already exist' })
     }
-    
-    body.password = await generateHash(body.password);
 
     const userCreated = await User.create(body);
-
+    console.log('--A--')
     const token = generateToken(userCreated.id);
 
     return res.status(201).send({ userCreated, token });

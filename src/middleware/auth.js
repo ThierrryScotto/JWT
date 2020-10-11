@@ -1,6 +1,6 @@
 'use strict'
 
-const { verifyToken } = require('../service/jwt/index');
+const { verifyToken } = require('../services/jwt/index');
 
 module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;

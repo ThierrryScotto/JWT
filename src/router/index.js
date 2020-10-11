@@ -26,7 +26,7 @@ class AppController {
 		this.express.listen(port, (error, sucess) => {
 			if (error) console.log(error);
 
-			console.log(`listen in the port ${port}`);
+			console.log(`listening at the port ${port}`);
 		})
 	}
 }
