@@ -1,6 +1,6 @@
 'use strict'
 
-const mongoose        = require('../services/db/index');
+const mongoose         = require('../services/db/index');
 const { generateHash } = require('../services/bcrypt/index');
 
 const Schema = mongoose.Schema;
@@ -15,7 +15,7 @@ const userSchema = new Schema({
 userSchema.pre('save', async function (next) {
   const hash = await generateHash(this.password);
   this.password = hash;
-  
+
   next();
 });
 
