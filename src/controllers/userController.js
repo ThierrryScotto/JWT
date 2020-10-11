@@ -1,19 +1,20 @@
 'use strict'
 
-const User              = require('../models/user');
-const { generateToken } = require('../services/jwt');
+const User                 = require('../models/user');
+const { generateToken }    = require('../services/jwt');
+const { httpErrorMessage } = require('../util/index');
 
 const getUsers = async (req, res) => {
   try {
     const users = await User.find();  
 
     if (!users) {
-      return res.status(404).send('There are not users')
+      return httpErrorMessage(404, res);
     }
 
     return res.status(200).send(users);
   } catch {
-    return res.status(400).send('There was a internal error')
+    return httpErrorMessage(500, res);
   }
 };
 
@@ -23,12 +24,12 @@ const getUserById = async (req, res) => {
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
-      res.status(404).send(`user ${id} not found`);
+      return httpErrorMessage(404, res);
     }
 
     res.status(200).send(user);
   } catch {
-    res.status(400).send('There was a internal error');
+    return httpErrorMessage(500, res);
   }  
 };
 
@@ -37,7 +38,7 @@ const editUser = async (req, res) => {
   let user = await User.findOne({ _id: body.id });
 
   if (!user) {
-    return res.status(404).send('User not found');
+    return httpErrorMessage(404, res);
   }
 
   try {  
@@ -50,7 +51,7 @@ const editUser = async (req, res) => {
     return res.status(202).send({ success: 'User edited with success' });
   } 
   catch {
-    return res.status(400).send({ error: 'There was a internal error' });
+    return httpErrorMessage(500, res);
   }
 };
 
@@ -61,7 +62,7 @@ const createUser = async (req, res) => {
     const user = await User.findOne({ email: body.email });
 
     if (user) {
-      return res.status(400).send({ error: 'User already exist' })
+      return httpErrorMessage(400, res);
     }
 
     const userCreated = await User.create(body);
@@ -70,7 +71,7 @@ const createUser = async (req, res) => {
 
     return res.status(201).send({ userCreated, token });
   } catch(error) {
-    return res.status(400).send('There was a internal error');
+    return httpErrorMessage(500, res);
   }
 };
 
@@ -81,18 +82,18 @@ const deleteUser = async (req, res) => {
     let user = await User.findOne({ _id: userId, status: '0' });
 
     if (!user) {
-      return res.send(404).send(`User ${userId} not found`);
+      return httpErrorMessage(404, res);
     }
 
     const userDeleted = await User.updateOne({ _id: userId }, { status: '1' });
 
     if (!userDeleted) {
-      return res.status(404).send(`User ${userId} not deleted`);
+      return httpErrorMessage(406, res);
     }
 
     return res.status(202).send('User deleted');
   } catch {
-    return res.status(400).send('There was a internal error');
+    return httpErrorMessage(500, res);
   }
 }
 
