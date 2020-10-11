@@ -1,10 +1,12 @@
 'use strict'
 
-const route          = require('./router/index');
-const userController = require('./controllers/userController')
+const router         = require('./router/index');
+const userController = require('./controllers/userController');
+const auth           = require('./controllers/authController');
 
-route.get('/users', userController.getUsers);
-route.get('/user/:userId', userController.getUserById);
-route.put('/edit/user', userController.editUser);
-route.post('/create/user', userController.createUser);
-route.delete('/delete/user/:userId', userController.deleteUser);
+router.post('/authenticate', auth.check);
+router.get('/users', userController.getUsers);
+router.get('/user/:userId', userController.getUserById);
+router.put('/edit/user', userController.editUser);
+router.post('/create/user', userController.createUser);
+router.delete('/delete/user/:userId', userController.deleteUser);

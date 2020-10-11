@@ -1,6 +1,7 @@
 'use strict'
 
-const User = require('../models/user');
+const User             = require('../models/user');
+const { generateHash } = require('../service/bcrypt/index');
 
 const getUsers = async (req, res) => {
   try {
@@ -56,6 +57,14 @@ const editUser = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     const body = req.body;
+
+    const alreadyUser = await User.findOne({ email: body.email });
+
+    if (alreadyUser) {
+      return res.status(400).send({ error: 'User already exist' })
+    }
+    
+    body.password = await generateHash(body.password);
 
     const userCreated = await User.create(body);
 
